@@ -1,0 +1,103 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block stylesheets %}
+<link href="{% static 'mie/css/listar_miembros.css' %}" rel="stylesheet" type="text/css">
+{% endblock stylesheets %}
+
+{% block title %}Lista de Miembros{% endblock %}
+
+{% block background %}{% static 'mie/img/musulman.jpg' %}{% endblock %}
+
+{% block headers %}<h1>Lista de Miembros</h1>{% endblock %}
+
+{% block content %}
+<div class="row ml-0 mb-3">
+    <a href="{% url 'miembros:agregar_miembro' %}">
+        <button type="button" class="btn btn-info font-weight-bold">
+            <i class="fas fa-long-arrow-alt-left mr-2"></i>
+            Volver
+        </button>
+    </a>
+</div>
+
+<div class="row ml-0 mb-3">
+    <a href="{% url 'miembros:lista_miembro' %}">
+        <button type="button" class="btn btn-info font-weight-bold">
+            <i class="fas fa-long-arrow-alt-left mr-2"></i>
+            Recargar
+        </button>
+    </a>
+</div>
+
+<form method="get" action="{% url 'miembros:lista_miembro' %}">
+    <div class="search-bar">
+        <input type="text" name="q" class="form-control" placeholder="Buscar" value="{{ query }}" id="search-input">
+    </div>
+</form>
+
+<div id="custom-table" class="table-responsive">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Nacionalidad</th>
+                <th>Estado Civil</th>
+                <th>Género</th>
+                <th>ID</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>No. Hijos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for miembro in miembros %}
+                <tr>
+                    <td>{{ miembro.nombre }}</td>
+                    <td>{{ miembro.apellido }}</td>
+                    <td>{{ miembro.nacionalidad.nombre }}</td>
+                    <td>{{ miembro.estadocivil.nombre }}</td>
+                    <td>{{ miembro.genero.nombre }}</td>
+                    <td>{{ miembro.di }}</td>
+                    <td>{{ miembro.direccion }}</td>
+                    <td>{{ miembro.telefono }}</td>
+                    <td>{{ miembro.correo }}</td>
+                    <td>{{ miembro.nohijos }}</td>
+                    <td id="action-button" class="acciones">
+                            <a href="{% url 'miembros:miembros_actuali' miembro.id %}" class="btn edit-button" title="Actualizar miembro">
+                            <i class="fas fa-pen">ACTUALIZAR</i>
+                            </a>
+                            <a href="#" class="btn delete-button" data-toggle="modal" data-target="#eliminarMiembro{{ miembro.id }}">
+                            <i class="fas fa-trash">ELIMINAR</i>
+                            </a>
+
+                           <div class="modal fade" id="eliminarMiembro{{ miembro.id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ miembro.id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel{{ miembro.id }}">Eliminar Miembro</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ¿Está seguro de que desea eliminar a {{ miembro.nombre }}?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a id="updateThisURL" rel="delete" href="{% url 'miembros:eliminar_miembro' miembro.id %}" class="btn btn-danger text-decoration-none">Eliminar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+
+{% endblock %}

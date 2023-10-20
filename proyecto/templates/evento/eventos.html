@@ -1,0 +1,23 @@
+{% extends 'base/base.html'%}
+
+{% block title%} Eventos {% endblock%}   
+
+{% block background %}{% load static %}{% static 'eve/img/even.jpg' %}{% endblock %}
+
+{% block headers %}
+<h1>Eventos</h1>
+{% endblock %}
+
+{% block content%}  
+ <!-- Proyecto -->
+	      <div class="row project">  	
+	      	<div class="col-lg-3 col-md-4 offset-lg-1">
+			      <img class="img-fluid" src="{% static 'eve/img/icon1.png' %}" alt="">
+	      	</div>
+	        <div class="col-lg-7 col-md-8">
+	      		<h2 class="section-heading title">Gestionar Eventos</h2>   
+	          <p>Apartado para la administracion de eventos de la Comunidad Islámica Aldaawa</p>
+	          <p><a href="http://google.com">Administrar </a></p>
+	      	</div>
+	      </div>
+{% endblock%}
